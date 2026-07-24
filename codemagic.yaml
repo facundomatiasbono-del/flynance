@@ -5,12 +5,17 @@ workflows:
     max_build_duration: 120
 
     environment:
+      groups:
+        - supabase
+
       node: 22
       xcode: latest
       cocoapods: default
+
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.misgastos.app
+
       vars:
         XCODE_WORKSPACE: ios/App/App.xcworkspace
         XCODE_SCHEME: App
@@ -35,7 +40,6 @@ workflows:
 
       - name: Build IPA
         script: |
-          cd ios/App
           xcode-project build-ipa \
             --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
