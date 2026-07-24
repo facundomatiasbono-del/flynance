@@ -1,0 +1,68 @@
+Spendly Spendix Spendify Spendium Finlio Finovo
+Flynance
+Financium
+
+See where your money goes.
+Track every expense in one place.
+
+Tus dinero, bajo control.
+Todos tus gastos organizados en un solo lugar.
+
+
+
+
+npm run dev
+http://localhost:5173
+
+
+. Prompt exacto para buscar hosts gratuitos
+
+  Copiá y pegá este prompt:
+
+  Quiero que investigues en Internet opciones de hosting que tengan un plan realmente gratuito y sean compatibles con mi proyecto.
+
+  Características del proyecto:
+
+  - Frontend: React 19 con TypeScript.
+  - Herramienta de compilación: Vite 7.
+  - Comando de compilación: npm run build.
+  - Directorio generado: dist.
+  - Es una SPA estática y no necesita un servidor Node.js permanente.
+  - Usa dos variables de entorno durante la compilación:
+    - VITE_SUPABASE_URL
+    - VITE_SUPABASE_ANON_KEY
+  - Backend, base de datos y autenticación: Supabase.
+  - Tiene una Supabase Edge Function que recibe mensajes de WhatsApp desde Twilio, pero esa función ya está alojada en Supabase y no debe trasladarse al nuevo hosting.
+  - También existe una aplicación Android hecha con Capacitor, pero el hosting buscado es solamente para la versión web.
+  - Necesito HTTPS, una URL pública, compatibilidad con dominio personalizado y soporte para redirecciones de autenticación de Supabase.
+  - Preferentemente debe poder desplegar automáticamente desde GitHub.
+  - El proyecto podría tener uso comercial en el futuro.
+
+  Buscá y compará únicamente planes que estén vigentes actualmente. Consultá documentación oficial y no te bases solamente en artículos o comparadores.
+
+  Para cada proveedor indicá:
+
+  1. Si el plan sigue siendo gratuito.
+  2. Si permite uso comercial.
+  3. Límites de ancho de banda, compilaciones y cantidad de sitios.
+  4. Si requiere tarjeta de crédito.
+  5. Si admite proyectos privados de GitHub.
+  6. Si permite variables de entorno en la compilación.
+  7. Si ofrece HTTPS y dominio personalizado.
+  8. Si una SPA de Vite necesita alguna configuración especial.
+  9. Qué ocurre al superar los límites gratuitos.
+  10. Si el sitio se suspende por inactividad.
+  11. Comando de compilación y directorio de salida que debo configurar.
+
+  Compará como mínimo:
+
+  - Cloudflare Pages
+  - Vercel
+  - Netlify
+  - GitHub Pages
+  - Firebase Hosting
+  - Render Static Sites
+  - GitLab Pages
+
+  Terminá con una recomendación principal y una alternativa. Priorizá que sea gratuito, apto para uso comercial, fácil de configurar y que no suspenda el frontend por inactividad.
+  Incluí enlaces directos a la documentación oficial y señalá claramente cualquier dato que no hayas podido verificar.

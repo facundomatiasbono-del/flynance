@@ -1,0 +1,4 @@
+project_id = "flynance"
+
+[functions.twilio-whatsapp]
+verify_jwt = false

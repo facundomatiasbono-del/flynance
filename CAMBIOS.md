@@ -1,0 +1,120 @@
+# Estado actual de Flynance
+
+## Inicio
+
+- Registro manual de gastos con importe, categoría y detalle.
+- Palabras clave personales vinculadas a cada categoría.
+- Las palabras clave se pueden crear, seleccionar, renombrar y eliminar.
+- Al seleccionar una palabra clave, se agrega automáticamente al detalle.
+- Recordatorios mensuales de gastos fijos en una sección plegable.
+- Los pagos fijos se pueden marcar como realizados y se agregan automáticamente a los gastos del mes.
+- Actividad con filtros discretos por fecha o categoría.
+- Iconos personalizados para las categorías en los últimos gastos.
+- La actividad muestra el mes y el año actuales y únicamente los gastos de ese mes.
+- Edición integrada de cada gasto, sin ventanas emergentes, para cambiar detalle, categoría e importe.
+- Los botones de la edición integrada muestran únicamente los iconos de cancelar y guardar.
+- Cada gasto se puede desplegar para consultar fecha, hora, origen (App o WhatsApp), categoría, detalle e importe.
+- Los gastos editados muestran la versión inmediatamente anterior y la fecha de la edición.
+
+## Análisis
+
+- Distribución por categoría con importe y porcentaje.
+- Filtros por fecha, categoría, mes o palabra clave.
+- Los filtros se aplican simultáneamente a las barras de distribución y al gráfico donut.
+- Los importes, porcentajes y el total del donut se recalculan con los gastos filtrados.
+- Gráfico donut del mes actual a la derecha de la distribución.
+- Iconos personalizados en la distribución por categoría.
+- Los iconos de “Distribución por categoría” usan el color asociado a su segmento del donut.
+- El donut incluye el icono de cada categoría dentro de su segmento.
+- Los iconos internos conservan el color de la categoría y utilizan un fondo adaptado al panel y al tema visual.
+
+## Ajustes
+
+- Selector de tema blanco o negro mediante interruptor deslizable.
+- Selector de idioma mediante botones visibles ES y EN.
+- Selector de moneda con monedas sudamericanas, USD, EUR y TRY.
+- Botón independiente, alineado a la derecha, para guardar la moneda seleccionada.
+- Configuración de ingreso mensual y alerta de gastos.
+- Administración de gastos fijos; el formulario para agregar aparece al final de la sección.
+- Administración de categorías; el formulario para agregar aparece al final de la sección.
+- Edición integrada del nombre y el icono de cada categoría, sin ventanas emergentes.
+- Selector visual de iconos para categorías predeterminadas y personalizadas.
+- Configuración de WhatsApp ubicada como última sección.
+
+## Navegación
+
+La barra superior siempre muestra estos accesos, en este orden:
+
+1. Inicio.
+2. Análisis.
+3. Ajustes.
+4. Cerrar sesión.
+
+## Migraciones de Supabase
+
+Además de las migraciones iniciales, deben ejecutarse en orden:
+
+1. `005_fixed_expense_payments.sql`: pagos mensuales de gastos fijos.
+2. `006_expense_keywords.sql`: palabras clave por categoría.
+3. `007_profile_currency.sql`: moneda seleccionada por el usuario.
+4. `008_category_icons.sql`: iconos personalizables para categorías.
+5. `009_expense_edit_history.sql`: estado anterior y fecha de la última edición de cada gasto.
+
+Los archivos están en `supabase/migrations/`.
+
+## Ejecutar localmente
+
+Desde CMD:
+
+```cmd
+cd /d C:\Users\cengi\Desktop\Python\flynance
+npm run dev
+```
+
+Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
+
+## Mejoras visuales y funcionales recientes
+
+- El botón “Guardar gasto” tiene un tamaño compacto y está alineado a la derecha.
+- En Análisis se agregó un gráfico de área con los gastos realizados por día, los importes en el eje Y y los días del mes en el eje X.
+- El gráfico de área responde a los filtros aplicados y muestra el importe exacto de cada día.
+- Los botones para editar y quitar categorías comparten el estilo visual de los controles de gastos fijos.
+- Cuando una cuenta de WhatsApp está vinculada, el número queda bloqueado y se muestra un indicador de confirmación.
+- El botón “Editar” habilita el número sin guardarlo automáticamente; los cambios solo se vinculan al presionar “Guardar cambios”.
+
+## Actualización de Analytics y experiencia de uso
+
+- El gráfico de área se movió debajo de los gráficos de distribución y utiliza una curva suave.
+- Se agregaron las vistas “Mensual” y “Anual”, sin desplazamiento horizontal.
+- La vista mensual muestra todos los días, el límite de gasto y el punto interactivo donde se alcanzó.
+- La distribución por categoría y la dona comparten una selección interactiva: elegir una categoría en cualquiera de las dos resalta la misma información.
+- La dona muestra los porcentajes dentro de sus segmentos.
+- Analytics permite descargar el reporte filtrado en CSV o compartirlo mediante las aplicaciones disponibles en el dispositivo.
+- Los filtros se cierran al hacer clic fuera, ocultan su configuración después de aplicarse y ofrecen la opción “Restablecer”.
+- Los detalles de los últimos gastos incluyen origen, hora, importe y gasto acumulado hasta ese momento.
+- Las acciones de editar y eliminar aparecen únicamente dentro del detalle desplegado.
+- Las filas de gastos, gastos fijos, categorías y distribución comparten estados visuales redondeados al pasar el mouse.
+- La planificación mensual muestra “Guardar cambios” solamente cuando se modifica el ingreso o el límite de gasto.
+- El selector de categorías incluye diez iconos adicionales.
+- Se actualizaron el icono de la marca y el favicon con un gráfico ascendente.
+
+## Android y recuperación de acceso
+
+- Se preparó una instalación portátil de JDK 21 y Android SDK para compilar sin Android Studio.
+- Se generó el APK de prueba `Flynance-debug.apk`, firmado y apto para instalación manual.
+- La web compilada se sincroniza con Android mediante Capacitor.
+- Se agregó “Olvidé mi contraseña” en la pantalla de ingreso.
+- El usuario puede solicitar por correo un enlace seguro de recuperación.
+- Al abrir el enlace se muestra una pantalla para establecer una contraseña nueva.
+- Las contraseñas existentes no se pueden consultar porque Supabase las almacena como hashes irreversibles.
+- Analytics permite descargar un reporte CSV o compartirlo mediante las aplicaciones disponibles en el dispositivo.
+
+## Seguridad y planificación mensual
+
+- Los campos de contraseña incluyen un botón para mostrar u ocultar el contenido.
+- La aplicación Android conserva la sesión y protege el acceso mediante huella, rostro, PIN o patrón del dispositivo.
+- El bloqueo se activa al iniciar nuevamente la aplicación o regresar desde segundo plano.
+- “Planificación mensual” permanece cerrada por defecto y utiliza un interruptor para mostrar u ocultar su contenido.
+- Los valores de ingreso y límite de gasto están bloqueados hasta presionar el botón de edición.
+- Durante la edición se muestran una “X” para cancelar y un tilde para guardar.
+- Estos cambios permanecen locales y todavía no fueron incorporados a una nueva compilación del APK.
