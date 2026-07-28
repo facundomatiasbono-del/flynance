@@ -164,3 +164,11 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Minimizar y restaurar la ventana, renovar la sesión de Supabase o remontar el componente no reinicia el recorrido.
 - El borrador temporal se elimina al finalizar correctamente el onboarding.
 - La web compiló correctamente; no se generó una nueva APK.
+
+## Corrección de URL de autenticación en Cloudflare
+
+- Se detectó que Workers Builds tenía `VITE_SUPABASE_URL` apuntando al Worker de Flynance en vez de Supabase.
+- Esa configuración enviaba el registro a una ruta incorrecta y provocaba `Unexpected end of JSON input`.
+- El cliente ahora valida que la URL use HTTPS y pertenezca a `supabase.co`.
+- Si la variable está ausente o es inválida, utiliza la URL pública correcta del proyecto Flynance.
+- La web compiló correctamente; no se generó una nueva APK.

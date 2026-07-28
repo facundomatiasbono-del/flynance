@@ -1,9 +1,21 @@
 import { createClient } from '@supabase/supabase-js'
 
-const url = import.meta.env.VITE_SUPABASE_URL
+const defaultUrl = 'https://goxexrlovlechdxgsxbq.supabase.co'
+const configuredUrl = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const configured = Boolean(url && key)
+function validSupabaseUrl(value:string|undefined) {
+  if (!value) return false
+  try {
+    const parsed = new URL(value)
+    return parsed.protocol === 'https:' && parsed.hostname.endsWith('.supabase.co')
+  } catch {
+    return false
+  }
+}
+
+const url = validSupabaseUrl(configuredUrl) ? configuredUrl : defaultUrl
+export const configured = Boolean(key)
 const authStorage = {
   getItem(key:string) {
     return localStorage.getItem('remember_session')!=='false'
