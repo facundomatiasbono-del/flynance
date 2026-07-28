@@ -203,3 +203,4 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Se agregó `supabase/migrations/013_excluded_expenses.sql` para guardar esta preferencia en cada movimiento.
 - La nueva APK continúa pendiente hasta finalizar el conjunto de cambios.
 - La opción de exclusión se presenta en una sola línea y con un recuadro compacto para ocupar el menor alto posible.
+- Se eliminó la altura mínima del recuadro y su relleno vertical se redujo a 2 px.
