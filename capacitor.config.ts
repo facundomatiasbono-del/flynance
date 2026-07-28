@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.misgastos.app',
+  appId: 'com.flynance.app',
   appName: 'Flynance',
   webDir: 'dist',
   server: { androidScheme: 'https' },

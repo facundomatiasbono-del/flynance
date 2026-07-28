@@ -23,6 +23,8 @@ El código base incluye autenticación, panel mensual, alta y eliminación de ga
 - Al seleccionar un mes en el gráfico de barras, la dona muestra el detalle de ese período.
 - Ajustes permite administrar recordatorios de gastos fijos mensuales; requieren `supabase/migrations/004_fixed_expenses.sql`.
 - La última compilación con `npm.cmd run build` terminó correctamente.
+- El onboarding posterior al primer inicio de sesión requiere ejecutar
+  `supabase/migrations/010_onboarding_preferences.sql` en Supabase.
 
 URL pública del webhook configurado:
 
@@ -55,12 +57,16 @@ Configurar esa URL con método HTTP POST en **When a message comes in** del Sand
 
 ## APK Android
 
-Con Android Studio y sus SDK instalados:
+Este proyecto no usa Android Studio. La compilación se realiza desde la terminal
+con el JDK 21 y el Android SDK portátiles guardados en `.android-build-tools/`.
 
-```sh
-npm run android:add
-npm run android:sync
-npm run android:open
-```
+Cuando se genera una nueva versión, primero se compila la aplicación web, se
+sincroniza Capacitor y luego se ejecuta Gradle. El APK entregable actualizado se
+guarda en la raíz del proyecto como `Flynance.apk`.
 
-Desde Android Studio se puede generar primero un APK de prueba y posteriormente un Android App Bundle firmado para Google Play.
+La distribución privada usa el identificador permanente `com.flynance.app` y
+una firma release propia. La aplicación consulta automáticamente el manifiesto
+de actualización publicado en Cloudflare y permite descargar e instalar una
+versión posterior con confirmación del usuario en Android.
+
+Las instrucciones operativas persistentes para los agentes están en `AGENTS.md`.

@@ -4,7 +4,7 @@
 
 - URL: <https://flynance.facundomatiasbono.workers.dev>
 - Worker: `flynance`
-- Versión comprobada al publicar: `d4937b22-5103-496f-b0aa-84b65431190e`
+- Versión comprobada al publicar: `d2cef921-585c-4b91-82da-a4d6997cdd4b`
 
 ## Arquitectura
 
@@ -114,6 +114,35 @@ Wrangler carga automáticamente los archivos compilados desde `dist`; no es
 necesario subirlos manualmente al repositorio.
 
 ## APK Android actualizado
+
+La distribución privada de Android está publicada en:
+
+```text
+https://flynance.facundomatiasbono.workers.dev/updates/Flynance.apk
+```
+
+El manifiesto que consulta la aplicación está en:
+
+```text
+https://flynance.facundomatiasbono.workers.dev/updates/version.json
+```
+
+Datos de la versión base del actualizador:
+
+```text
+Fecha: 28/07/2026
+Application ID: com.flynance.app
+Versión: 1.0 (versionCode 1)
+Tipo: APK release
+Firma: CN=Flynance, alias flynance-release
+SHA-256 APK: D747FF57B02755656C45FE6CCF3344190F7D75A4ECDAAB6A0301909851AB0ADF
+SHA-256 certificado: FA46CAA73A020833B519BF3C94908CE1768A250D8B4E4326CC4A12772FA57DF1
+```
+
+Esta versión debe instalarse una vez de forma manual después de desinstalar la
+APK antigua `com.misgastos.app`. Las versiones siguientes deberán aumentar
+`versionCode`, conservar la clave `android/flynance-release.jks` y se podrán
+instalar desde el actualizador integrado.
 
 El frontend se compiló y sincronizó con Capacitor antes de generar una nueva
 compilación Android:

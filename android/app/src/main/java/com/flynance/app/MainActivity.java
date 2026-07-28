@@ -1,4 +1,4 @@
-package com.misgastos.app;
+package com.flynance.app;
 
 import com.getcapacitor.BridgeActivity;
 
@@ -6,6 +6,7 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(android.os.Bundle savedInstanceState) {
         registerPlugin(DeviceAuthPlugin.class);
+        registerPlugin(AppUpdatePlugin.class);
         super.onCreate(savedInstanceState);
     }
 }

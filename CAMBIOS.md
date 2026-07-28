@@ -59,6 +59,7 @@ Además de las migraciones iniciales, deben ejecutarse en orden:
 3. `007_profile_currency.sql`: moneda seleccionada por el usuario.
 4. `008_category_icons.sql`: iconos personalizables para categorías.
 5. `009_expense_edit_history.sql`: estado anterior y fecha de la última edición de cada gasto.
+6. `010_onboarding_preferences.sql`: onboarding completado, tema e idioma sincronizados.
 
 Los archivos están en `supabase/migrations/`.
 
@@ -117,4 +118,40 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - “Planificación mensual” permanece cerrada por defecto y utiliza un interruptor para mostrar u ocultar su contenido.
 - Los valores de ingreso y límite de gasto están bloqueados hasta presionar el botón de edición.
 - Durante la edición se muestran una “X” para cancelar y un tilde para guardar.
-- Estos cambios permanecen locales y todavía no fueron incorporados a una nueva compilación del APK.
+- Estos cambios fueron incorporados a la compilación release del 28/07/2026.
+
+## Identidad Flynance y actualizaciones privadas (28/07/2026)
+
+- Se cambió la identidad Android de `com.misgastos.app` a `com.flynance.app`.
+- Se creó la clave permanente `flynance-release`, almacenada localmente fuera de Git.
+- Se agregó comprobación automática de actualizaciones al iniciar la APK.
+- Ajustes incluye la opción para buscar actualizaciones manualmente.
+- La descarga nativa solo acepta HTTPS desde el Worker oficial de Flynance.
+- Antes de abrir el instalador, la APK descargada se valida mediante SHA-256.
+- Android solicita autorización para instalar aplicaciones desde Flynance y confirmación para cada actualización.
+- Se generó `Flynance.apk` como release 1.0 (versionCode 1), firmado con el certificado de Flynance.
+- El APK y `version.json` se publicaron en Cloudflare Workers.
+- Despliegue comprobado: `d2cef921-585c-4b91-82da-a4d6997cdd4b`.
+- SHA-256 del APK: `D747FF57B02755656C45FE6CCF3344190F7D75A4ECDAAB6A0301909851AB0ADF`.
+
+## Onboarding y preferencias sincronizadas
+
+- Se agregó un onboarding que aparece después del primer inicio de sesión confirmado.
+- El recorrido permite elegir idioma, tema claro/oscuro/sistema y moneda.
+- La planificación mensual, ingreso, alerta de gasto y WhatsApp son opcionales.
+- En Android se puede elegir si se activa el bloqueo mediante seguridad del dispositivo.
+- El tema se aplica inmediatamente durante el recorrido.
+- La opción “Sistema” responde a cambios del tema del teléfono o la computadora.
+- Idioma y tema también se pueden modificar desde Ajustes y se sincronizan con el perfil.
+- La finalización se guarda en Supabase para no repetir el recorrido en otros dispositivos.
+- Se agregó `supabase/migrations/010_onboarding_preferences.sql`.
+- `npm.cmd run build` terminó correctamente.
+- Estos cambios todavía no fueron incorporados a una nueva APK, según el flujo de compilación acordado.
+
+## Validación de correos duplicados
+
+- El registro detecta la respuesta ofuscada que Supabase devuelve cuando el correo ya pertenece a una cuenta confirmada.
+- En lugar de indicar que se envió una confirmación, Flynance avisa que el correo ya está registrado y ofrece ingresar o recuperar la contraseña.
+- Los correos se normalizan quitando espacios exteriores y convirtiéndolos a minúsculas antes de autenticar.
+- El mensaje de estado se limpia al alternar entre registro e inicio de sesión.
+- La aplicación web compiló correctamente; todavía no se generó una nueva APK.
