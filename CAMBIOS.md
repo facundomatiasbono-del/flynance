@@ -194,3 +194,11 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Los iconos predeterminados se asignan por significado y también reconocen nombres habituales en español, inglés, francés, italiano y alemán.
 - El selector de iconos vuelve a mostrar cada opción real sin que el nombre de la categoría reemplace su vista previa.
 - Se agregó `supabase/migrations/012_category_icon_catalog.sql` para habilitar todo el catálogo de iconos y corregir los iconos de las categorías predeterminadas.
+
+## Movimientos excluidos de los totales
+
+- Al editar un movimiento desde Actividad se puede activar “Excluir de los totales”.
+- El movimiento permanece visible con la etiqueta “No contabilizado” y conserva su importe original.
+- Los movimientos excluidos no afectan el total mensual, el dinero disponible, las alertas, los gráficos, las distribuciones ni los reportes.
+- Se agregó `supabase/migrations/013_excluded_expenses.sql` para guardar esta preferencia en cada movimiento.
+- La nueva APK continúa pendiente hasta finalizar el conjunto de cambios.
