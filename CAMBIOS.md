@@ -202,3 +202,4 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Los movimientos excluidos no afectan el total mensual, el dinero disponible, las alertas, los gráficos, las distribuciones ni los reportes.
 - Se agregó `supabase/migrations/013_excluded_expenses.sql` para guardar esta preferencia en cada movimiento.
 - La nueva APK continúa pendiente hasta finalizar el conjunto de cambios.
+- La opción de exclusión se presenta en una sola línea y con un recuadro compacto para ocupar el menor alto posible.
