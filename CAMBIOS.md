@@ -156,3 +156,11 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - El mensaje de estado se limpia al alternar entre registro e inicio de sesión.
 - La aplicación web compiló correctamente; todavía no se generó una nueva APK.
 - La web actualizada se publicó en Cloudflare Workers con la versión `a0851608-dc6c-4482-9f2d-85f2d2e0a009`.
+
+## Continuidad del onboarding
+
+- El botón “Atrás” utiliza el mismo estilo principal que “Continuar”.
+- El paso actual y los campos temporales del onboarding se conservan por usuario durante la sesión del navegador.
+- Minimizar y restaurar la ventana, renovar la sesión de Supabase o remontar el componente no reinicia el recorrido.
+- El borrador temporal se elimina al finalizar correctamente el onboarding.
+- La web compiló correctamente; no se generó una nueva APK.

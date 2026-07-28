@@ -119,7 +119,7 @@ export function App(){
   async function unlockDevice(){setDeviceAuthenticating(true);setDeviceAuthError('');try{await deviceAuth.authenticate();setDeviceUnlocked(true)}catch(error){setDeviceAuthError((error as Error).message)}finally{setDeviceAuthenticating(false)}}
   useEffect(()=>{if(session&&deviceAuthEnabled&&Capacitor.isNativePlatform()&&!deviceUnlocked&&!deviceAuthenticating&&document.visibilityState==='visible')unlockDevice()},[session,deviceAuthEnabled,deviceUnlocked])
   useEffect(()=>{if(!Capacitor.isNativePlatform()||!deviceAuthEnabled)return;function handleVisibility(){if(!session)return;if(document.visibilityState==='hidden')setDeviceUnlocked(false);else if(!deviceUnlocked&&!deviceAuthenticating)unlockDevice()}document.addEventListener('visibilitychange',handleVisibility);return()=>document.removeEventListener('visibilitychange',handleVisibility)},[session,deviceAuthEnabled,deviceUnlocked,deviceAuthenticating])
-  useEffect(()=>{if(session){setProfileLoaded(false);loadExpenses();loadProfile();loadCategories();loadFixedExpenses();loadKeywords()}else setProfileLoaded(false)},[session])
+  useEffect(()=>{if(session){setProfileLoaded(false);loadExpenses();loadProfile();loadCategories();loadFixedExpenses();loadKeywords()}else setProfileLoaded(false)},[session?.user.id])
   async function loadExpenses(){const since=new Date(new Date().getFullYear(),0,1);const {data,error}=await supabase.from('expenses').select('*').gte('spent_at',since.toISOString()).order('spent_at',{ascending:false});if(error)setMessage(error.message);else setExpenses((data||[]) as Expense[])}
   async function loadProfile(){const {data,error}=await supabase.from('profiles').select('whatsapp_phone, monthly_income, spending_alert, currency_code, monthly_planning_enabled, onboarding_completed, theme_preference, language_preference').single();if(data){const next={whatsapp_phone:data.whatsapp_phone,monthly_income:data.monthly_income===null?null:Number(data.monthly_income),spending_alert:data.spending_alert===null?null:Number(data.spending_alert),currency_code:data.currency_code||'ARS',monthly_planning_enabled:Boolean(data.monthly_planning_enabled),onboarding_completed:Boolean(data.onboarding_completed),theme_preference:(data.theme_preference||'system') as ThemePreference,language_preference:(data.language_preference||'es') as Language};setProfile(next);if(next.onboarding_completed){setThemePreference(next.theme_preference);setLanguage(next.language_preference)}}else if(error){setMessage(error.message);setProfile(value=>({...value,onboarding_completed:true}))}setProfileLoaded(true)}
   async function loadCategories(){const {data}=await supabase.from('categories').select('id, name, icon_key').order('name');if(data)setUserCategories(data.map(item=>({...item,icon_key:item.icon_key||defaultCategoryIcon(item.name)})) as Category[])}
@@ -135,7 +135,7 @@ export function App(){
   if(recoveryMode)return <PasswordRecovery controls={controls} t={t} onComplete={()=>setRecoveryMode(false)}/>
   if(!deviceUnlocked)return <DeviceLock language={language} authenticating={deviceAuthenticating} error={deviceAuthError} onUnlock={unlockDevice}/>
   if(!profileLoaded)return <main className="center">{t.loading}</main>
-  if(!profile.onboarding_completed)return <Onboarding profile={profile} language={language} themePreference={themePreference} deviceAuthEnabled={deviceAuthEnabled} onLanguageChange={setLanguage} onThemeChange={setThemePreference} onDeviceAuthChange={setDeviceAuthEnabled} onComplete={loadProfile}/>
+  if(!profile.onboarding_completed)return <Onboarding userId={session.user.id} profile={profile} language={language} themePreference={themePreference} deviceAuthEnabled={deviceAuthEnabled} onLanguageChange={setLanguage} onThemeChange={setThemePreference} onDeviceAuthChange={setDeviceAuthEnabled} onComplete={loadProfile}/>
   const st=settingsCopy[language]
   const reachedAlert=Boolean(profile.monthly_planning_enabled&&profile.spending_alert&&total>=profile.spending_alert)
   const limitCrossing=(()=>{
@@ -185,20 +185,23 @@ export function App(){
   </main></div>
 }
 
-function Onboarding({profile,language,themePreference,deviceAuthEnabled,onLanguageChange,onThemeChange,onDeviceAuthChange,onComplete}:{profile:ProfileSettings,language:Language,themePreference:ThemePreference,deviceAuthEnabled:boolean,onLanguageChange:(value:Language)=>void,onThemeChange:(value:ThemePreference)=>void,onDeviceAuthChange:(value:boolean)=>void,onComplete:()=>Promise<void>}){
+function Onboarding({userId,profile,language,themePreference,deviceAuthEnabled,onLanguageChange,onThemeChange,onDeviceAuthChange,onComplete}:{userId:string,profile:ProfileSettings,language:Language,themePreference:ThemePreference,deviceAuthEnabled:boolean,onLanguageChange:(value:Language)=>void,onThemeChange:(value:ThemePreference)=>void,onDeviceAuthChange:(value:boolean)=>void,onComplete:()=>Promise<void>}){
   const native=Capacitor.isNativePlatform()
   const steps=['welcome','language','appearance','currency','planning','whatsapp',...(native?['security']:[]),'finish']
-  const [step,setStep]=useState(0)
-  const [currency,setCurrency]=useState(profile.currency_code||'ARS')
-  const [planning,setPlanning]=useState(profile.monthly_planning_enabled)
-  const [income,setIncome]=useState(profile.monthly_income?.toString()||'')
-  const [alert,setAlert]=useState(profile.spending_alert?.toString()||'')
-  const [phone,setPhone]=useState(profile.whatsapp_phone||'')
-  const [lockEnabled,setLockEnabled]=useState(deviceAuthEnabled)
+  const storageKey=`flynance_onboarding_${userId}`
+  const draft=useMemo(()=>{try{return JSON.parse(sessionStorage.getItem(storageKey)||'{}') as {step?:number;currency?:string;planning?:boolean;income?:string;alert?:string;phone?:string;lockEnabled?:boolean}}catch{return{}}},[storageKey])
+  const [step,setStep]=useState(()=>Math.min(Math.max(0,draft.step||0),steps.length-1))
+  const [currency,setCurrency]=useState(draft.currency||profile.currency_code||'ARS')
+  const [planning,setPlanning]=useState(draft.planning??profile.monthly_planning_enabled)
+  const [income,setIncome]=useState(draft.income??profile.monthly_income?.toString()??'')
+  const [alert,setAlert]=useState(draft.alert??profile.spending_alert?.toString()??'')
+  const [phone,setPhone]=useState(draft.phone??profile.whatsapp_phone??'')
+  const [lockEnabled,setLockEnabled]=useState(draft.lockEnabled??deviceAuthEnabled)
   const [saving,setSaving]=useState(false)
   const [status,setStatus]=useState('')
   const text=onboardingCopy[language]
   const current=steps[step]
+  useEffect(()=>{sessionStorage.setItem(storageKey,JSON.stringify({step,currency,planning,income,alert,phone,lockEnabled}))},[storageKey,step,currency,planning,income,alert,phone,lockEnabled])
   function next(){setStatus('');setStep(value=>Math.min(steps.length-1,value+1))}
   function back(){setStatus('');setStep(value=>Math.max(0,value-1))}
   async function finish(){
@@ -220,6 +223,7 @@ function Onboarding({profile,language,themePreference,deviceAuthEnabled,onLangua
     if(error){setStatus(error.code==='23505'?copy[language].phoneUsed:error.message.includes('onboarding_completed')?'Primero ejecutá la migración 010_onboarding_preferences.sql en Supabase.':error.message);return}
     localStorage.setItem('device_auth_enabled',String(lockEnabled))
     onDeviceAuthChange(lockEnabled)
+    sessionStorage.removeItem(storageKey)
     await onComplete()
   }
   return <main className="onboarding-page"><section className="onboarding-card"><div className="onboarding-brand"><span><TrendingUp size={23}/></span><strong>Flynance</strong></div><div className="onboarding-progress" aria-label={`${step+1}/${steps.length}`}>{steps.map((_,index)=><i className={index<=step?'active':''} key={index}/>)}</div><div className="onboarding-content">
@@ -231,7 +235,7 @@ function Onboarding({profile,language,themePreference,deviceAuthEnabled,onLangua
     {current==='whatsapp'&&<><p className="eyebrow">Flynance</p><h1>{text.whatsapp}</h1><p className="muted">{text.whatsappText}</p><label>{text.phone}<input type="tel" placeholder="+5491123456789" value={phone} onChange={event=>{setPhone(event.target.value);setStatus('')}}/></label></>}
     {current==='security'&&<><p className="eyebrow">Flynance</p><h1>{text.security}</h1><p className="muted">{text.securityText}</p><label className="onboarding-switch"><span>{text.deviceAuth}</span><button type="button" role="switch" aria-checked={lockEnabled} className={`theme-switch ${lockEnabled?'on':''}`} onClick={()=>setLockEnabled(value=>!value)}><i/></button></label></>}
     {current==='finish'&&<><div className="onboarding-hero success"><Check size={38}/></div><p className="eyebrow">Flynance</p><h1>{text.finish}</h1><p className="muted">{text.finishText}</p></>}
-  </div>{status&&<p className="notice">{status}</p>}<div className="onboarding-actions">{step>0&&<button type="button" className="secondary" onClick={back}>{text.back}</button>}<button type="button" className="primary" disabled={saving} onClick={current==='finish'?finish:next}>{saving?text.saving:current==='welcome'?text.start:current==='finish'?text.enter:text.next}</button></div></section></main>
+  </div>{status&&<p className="notice">{status}</p>}<div className="onboarding-actions">{step>0&&<button type="button" className="primary" onClick={back}>{text.back}</button>}<button type="button" className="primary" disabled={saving} onClick={current==='finish'?finish:next}>{saving?text.saving:current==='welcome'?text.start:current==='finish'?text.enter:text.next}</button></div></section></main>
 }
 
 const chartColors=['#91bdf4','#4f8fc0','#6f6a8c','#61b39f','#e5a85b','#d67575','#a78bdb','#7f9f68']
