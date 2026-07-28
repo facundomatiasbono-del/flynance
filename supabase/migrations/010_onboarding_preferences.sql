@@ -11,4 +11,4 @@ alter table public.profiles
   add constraint profiles_theme_preference_check
     check (theme_preference in ('light', 'dark', 'system')),
   add constraint profiles_language_preference_check
-    check (language_preference in ('es', 'en'));
+    check (language_preference in ('es', 'en', 'fr', 'it', 'de'));

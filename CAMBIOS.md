@@ -177,3 +177,12 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 
 - Los selectores de moneda del onboarding y Ajustes muestran primero ARS, luego USD y EUR, seguidos por el resto de las monedas.
 - No se modificó la moneda predeterminada, que continúa siendo ARS.
+
+## Nuevos idiomas
+
+- Se agregaron francés, italiano y alemán a los idiomas disponibles, junto con español e inglés.
+- Los cinco idiomas se pueden elegir durante el onboarding, desde Ajustes y desde la pantalla de acceso.
+- La preferencia se conserva localmente y se sincroniza con el perfil del usuario.
+- Las fechas, los meses y los importes usan el formato regional del idioma seleccionado.
+- Se agregó `supabase/migrations/011_add_profile_languages.sql` para permitir los nuevos códigos de idioma en perfiles existentes.
+- La aplicación web compiló correctamente; todavía no se generó una nueva APK.
