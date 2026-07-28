@@ -204,3 +204,14 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - La nueva APK continúa pendiente hasta finalizar el conjunto de cambios.
 - La opción de exclusión se presenta en una sola línea y con un recuadro compacto para ocupar el menor alto posible.
 - Se eliminó la altura mínima del recuadro y su relleno vertical se redujo a 2 px.
+
+## Presupuestos y promedios
+
+- La planificación permite elegir un presupuesto semanal, mensual o trimestral.
+- El límite general se calcula desde el comienzo del período seleccionado y genera una alerta al alcanzarse.
+- Se agregó una sección de límites mensuales por categoría en Ajustes.
+- Al alcanzar el límite de una categoría, el inicio muestra el importe gastado y el máximo configurado.
+- Analytics muestra el promedio diario del mes en curso y los promedios semanal y mensual del año en curso.
+- Los movimientos marcados como “No contabilizado” quedan fuera de todos estos cálculos.
+- Se agregó `supabase/migrations/014_budgets.sql` para almacenar el período y los límites por categoría.
+- La web compiló correctamente; la nueva APK continúa pendiente.
