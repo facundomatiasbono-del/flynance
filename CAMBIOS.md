@@ -186,3 +186,11 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Las fechas, los meses y los importes usan el formato regional del idioma seleccionado.
 - Se agregó `supabase/migrations/011_add_profile_languages.sql` para permitir los nuevos códigos de idioma en perfiles existentes.
 - La aplicación web compiló correctamente; todavía no se generó una nueva APK.
+
+## Categorías traducidas e iconos
+
+- Los nombres de las categorías predeterminadas se muestran en el idioma elegido en formularios, actividad, análisis, filtros y Ajustes.
+- Los valores internos de las categorías permanecen estables para no separar ni perder gastos existentes al cambiar de idioma.
+- Los iconos predeterminados se asignan por significado y también reconocen nombres habituales en español, inglés, francés, italiano y alemán.
+- El selector de iconos vuelve a mostrar cada opción real sin que el nombre de la categoría reemplace su vista previa.
+- Se agregó `supabase/migrations/012_category_icon_catalog.sql` para habilitar todo el catálogo de iconos y corregir los iconos de las categorías predeterminadas.
