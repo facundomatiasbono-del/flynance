@@ -172,3 +172,8 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - El cliente ahora valida que la URL use HTTPS y pertenezca a `supabase.co`.
 - Si la variable está ausente o es inválida, utiliza la URL pública correcta del proyecto Flynance.
 - La web compiló correctamente; no se generó una nueva APK.
+
+## Orden de monedas
+
+- Los selectores de moneda del onboarding y Ajustes muestran primero ARS, luego USD y EUR, seguidos por el resto de las monedas.
+- No se modificó la moneda predeterminada, que continúa siendo ARS.

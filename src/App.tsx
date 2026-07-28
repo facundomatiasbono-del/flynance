@@ -19,7 +19,7 @@ const deviceAuth=registerPlugin<DeviceAuthPlugin>('DeviceAuth')
 const appUpdate=registerPlugin<AppUpdatePlugin>('AppUpdate')
 
 const categories = ['Comida','Transporte','Supermercado','Servicios','Salud','Ocio','Otros']
-const currencies=[['ARS','Peso argentino'],['BOB','Boliviano'],['BRL','Real brasileño'],['CLP','Peso chileno'],['COP','Peso colombiano'],['GYD','Dólar guyanés'],['PYG','Guaraní paraguayo'],['PEN','Sol peruano'],['SRD','Dólar surinamés'],['UYU','Peso uruguayo'],['VES','Bolívar venezolano'],['USD','Dólar estadounidense'],['EUR','Euro'],['TRY','Lira turca']]
+const currencies=[['ARS','Peso argentino'],['USD','Dólar estadounidense'],['EUR','Euro'],['BOB','Boliviano'],['BRL','Real brasileño'],['CLP','Peso chileno'],['COP','Peso colombiano'],['GYD','Dólar guyanés'],['PYG','Guaraní paraguayo'],['PEN','Sol peruano'],['SRD','Dólar surinamés'],['UYU','Peso uruguayo'],['VES','Bolívar venezolano'],['TRY','Lira turca']]
 const categoryNames: Record<Language, Record<string,string>> = {
   es:{ Comida:'Comida',Transporte:'Transporte',Supermercado:'Supermercado',Servicios:'Servicios',Salud:'Salud',Ocio:'Ocio',Otros:'Otros' },
   en:{ Comida:'Food',Transporte:'Transport',Supermercado:'Groceries',Servicios:'Utilities',Salud:'Health',Ocio:'Leisure',Otros:'Other' },
