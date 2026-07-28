@@ -155,3 +155,4 @@ Abrir la dirección mostrada por Vite, normalmente `http://localhost:5173`.
 - Los correos se normalizan quitando espacios exteriores y convirtiéndolos a minúsculas antes de autenticar.
 - El mensaje de estado se limpia al alternar entre registro e inicio de sesión.
 - La aplicación web compiló correctamente; todavía no se generó una nueva APK.
+- La web actualizada se publicó en Cloudflare Workers con la versión `a0851608-dc6c-4482-9f2d-85f2d2e0a009`.

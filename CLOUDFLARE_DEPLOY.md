@@ -4,7 +4,7 @@
 
 - URL: <https://flynance.facundomatiasbono.workers.dev>
 - Worker: `flynance`
-- Versión comprobada al publicar: `d2cef921-585c-4b91-82da-a4d6997cdd4b`
+- Versión comprobada al publicar: `a0851608-dc6c-4482-9f2d-85f2d2e0a009`
 
 ## Arquitectura
 
