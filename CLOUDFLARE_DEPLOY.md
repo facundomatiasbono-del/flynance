@@ -57,6 +57,29 @@ npm.cmd run build
 npx.cmd wrangler deploy
 ```
 
+## Despliegue automático desde GitHub
+
+El repositorio incluye el comando:
+
+```text
+npm run cloudflare:build
+```
+
+Este comando compila la web y después incorpora `Flynance.apk` junto con un
+`version.json` cuyo número de versión proviene de `android/app/build.gradle` y
+cuyo SHA-256 se calcula durante el build. Esto evita que un despliegue automático
+elimine los archivos utilizados por el actualizador Android.
+
+Configuración de Workers Builds:
+
+```text
+Repositorio: facundomatiasbono-del/flynance
+Rama de producción: main
+Directorio raíz: /
+Comando de build: npm run cloudflare:build
+Comando de deploy: npx wrangler deploy
+```
+
 Se usa `npx.cmd` porque la política de ejecución de PowerShell puede bloquear
 `npx.ps1`.
 

@@ -14,6 +14,7 @@
 - Las versiones de distribución se compilan con `assembleRelease --no-daemon --no-parallel` y la firma `flynance-release`.
 - La clave está en `android/flynance-release.jks` y sus datos locales en `android/keystore.properties`; ambos están ignorados por Git y deben conservarse juntos.
 - Para publicar una actualización: aumentar `versionCode` y `versionName`, compilar/sincronizar, generar el APK release, copiarlo a `Flynance.apk` y `dist/updates/Flynance.apk`, recalcular SHA-256 en `dist/updates/version.json`, y finalmente desplegar con Wrangler.
+- Para despliegues web automáticos desde GitHub, usar `npm run cloudflare:build`; este comando compila Vite, conserva `Flynance.apk` y regenera `dist/updates/version.json`.
 - El manifiesto público es `https://flynance.facundomatiasbono.workers.dev/updates/version.json`.
 - Para una actualización instalable sobre una versión anterior se deben conservar `applicationId` y la misma clave de firma, y aumentar `versionCode`.
 - No borrar ni sustituir una clave de firma existente. Los archivos de firma no se incorporan a Git.
